@@ -59,15 +59,6 @@ RUN cd /opt \
     && cd hansekhon-plugins \
     && make build
 
-RUN cd /opt \
-    && pip install pymssql \
-    && git clone https://github.com/willixix/naglio-plugins.git WL-Nagios-Plugins \
-    && git clone https://github.com/JasonRivers/nagios-plugins.git JR-Nagios-Plugins \
-    && git clone https://github.com/justintime/nagios-plugins.git JE-Nagios-Plugins \
-    && git clone https://github.com/nagiosenterprises/check_mssql_collection.git nagios-mssql \
-    && chmod +x /opt/WL-Nagios-Plugins/check* \
-    && chmod +x /opt/JE-Nagios-Plugins/check_mem/check_mem.pl
-
 RUN apt install -y libmonitoring-plugin-perl \
     && cd /tmp \
     && git clone https://github.com/matteocorti/check_rbl.git \
@@ -75,6 +66,17 @@ RUN apt install -y libmonitoring-plugin-perl \
     && perl Makefile.PL \
     && make \
     && make install
+
+RUN cd /opt \
+    && pip install pymssql \
+    && pip3 install check_docker \
+    && git clone https://github.com/willixix/naglio-plugins.git WL-Nagios-Plugins \
+    && git clone https://github.com/JasonRivers/nagios-plugins.git JR-Nagios-Plugins \
+    && git clone https://github.com/justintime/nagios-plugins.git JE-Nagios-Plugins \
+    && git clone https://github.com/nagiosenterprises/check_mssql_collection.git nagios-mssql \
+    && git clone https://github.com/colebrooke/kubernetes-nagios.git nagios-kubernetes \
+    && chmod +x /opt/WL-Nagios-Plugins/check* \
+    && chmod +x /opt/JE-Nagios-Plugins/check_mem/check_mem.pl
 
 RUN rm -Rf /tmp/* /var/tmp/* \
     && rm -Rf /var/www/html \
