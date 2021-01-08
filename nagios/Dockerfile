@@ -83,7 +83,8 @@ RUN rm -Rf /tmp/* /var/tmp/* \
     && apt-get clean \
     && rm -Rf /var/lib/apt/lists/*
 
-COPY start.sh /start.sh
+COPY ./start.sh /start.sh
+COPY ./slack_nagios.pl /usr/local/bin/slack_nagios.pl
 
 EXPOSE 80
 
