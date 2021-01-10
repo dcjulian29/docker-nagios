@@ -85,6 +85,7 @@ RUN rm -Rf /tmp/* /var/tmp/* \
 
 COPY ./start.sh /start.sh
 COPY ./slack_nagios.pl /usr/local/bin/slack_nagios.pl
+COPY ./index.html /var/www/html/index.html
 
 EXPOSE 80
 
