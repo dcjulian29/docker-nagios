@@ -68,7 +68,7 @@ RUN apt install -y libmonitoring-plugin-perl \
     && make install
 
 RUN cd /opt \
-    && pip install pymssql \
+    && pip3 install pymssql \
     && pip3 install check_docker \
     && git clone https://github.com/willixix/naglio-plugins.git WL-Nagios-Plugins \
     && git clone https://github.com/JasonRivers/nagios-plugins.git JR-Nagios-Plugins \
