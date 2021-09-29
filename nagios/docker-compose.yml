@@ -1,7 +1,6 @@
 version: '3.8'
 services:
   nagios:
-    #build: .
     image: 'dcjulian29/nagios:latest'
     environment:
       - TZ=America/New_York
@@ -10,5 +9,5 @@ services:
       - target: 80
         published: 8080
     volumes:
-      - ./.docker/nagios:/usr/local/nagios/etc
-      #- /c/code/nagios:/usr/local/nagios/etc
+      - /c/code/nagios:/usr/local/nagios/etc
+      - ./.docker/var:/usr/local/nagios/var
