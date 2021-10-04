@@ -26,12 +26,7 @@ case $@ in
       mkdir /usr/local/nagios/var/spool/checkresults
     fi
 
-    if [ ! -d /usr/local/nagios/var/apache2 ]; then
-      mkdir /usr/local/nagios/var/apache2
-    fi
-
     chown -R nagios:nagios /usr/local/nagios/var
-    chown -R nagios:www-data /usr/local/nagios/var/apache2
 
     /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 
