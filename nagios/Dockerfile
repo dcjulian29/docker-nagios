@@ -65,8 +65,8 @@ RUN cd /tmp \
          -e "s|^ServerSignature On|ServerSignature Off|" \
          -e "s|^ServerTokens OS|ServerTokens Prod|" /etc/apache2/conf-enabled/security.conf \
  && sed -i \
-        -e "s|ErrorLog \${APACHE_LOG_DIR}/|ErrorLog /usr/local/nagios/var|" \
-        -e "s|CustomLog \${APACHE_LOG_DIR}/|CustomLog /usr/local/nagios/var|" \
+        -e "s|ErrorLog \${APACHE_LOG_DIR}|ErrorLog /usr/local/nagios/var|" \
+        -e "s|CustomLog \${APACHE_LOG_DIR}|CustomLog /usr/local/nagios/var|" \
         /etc/apache2/sites-enabled/000-default.conf \
  && apt-get purge -y autoconf build-essential wget unzip \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
