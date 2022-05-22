@@ -1,6 +1,6 @@
 @echo off
 setlocal
-set NAGIOSVERSION=4.4.6
+set NAGIOSVERSION=4.4.7
 set NPREVERSION=4.0.3
 set PLUGINVERSION=2.3.3
 
