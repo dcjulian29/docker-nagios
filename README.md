@@ -1,0 +1,6 @@
+# A Docker Container for Nagios
+
+[![Docker Pulls](https://img.shields.io/docker/pulls/dcjulian29/nagios.svg)](https://hub.docker.com/r/dcjulian29/nagios/) [![Docker Stars](https://img.shields.io/docker/stars/dcjulian29/nagios.svg?maxAge=2592000)](https://hub.docker.com/r/dcjulian29/nagios/) [![GitHub Issues](https://img.shields.io/github/issues-raw/dcjulian29/docker-nagios.svg)](https://github.com/dcjulian29/docker-nagios/issues) [![CI](https://github.com/dcjulian29/docker-nagios/actions/workflows/ci.yml/badge.svg)](https://github.com/dcjulian29/docker-nagios/actions/workflows/ci.yml) [![Release Image](https://github.com/dcjulian29/docker-nagios/actions/workflows/release.yml/badge.svg)](https://github.com/dcjulian29/docker-nagios/actions/workflows/release.yml)
+
+This is a docker container that I use to deploy nagios to various environments for monitoring. Sometimes it is for whole network monitoring and sometimes it is simple inter-cluster application monitoring.
+This image currently is a monolithic image containing all of the plugins/checks for all environment. Possibly plan to update to a base image with additional images specialized to more specific environments... Other plan is to convert to a multi-stage build to reduce end image layer sizes which may make prior plan mute.
