@@ -38,6 +38,19 @@ jobs:
         id: plugin
         run: echo "::set-output name=version::$(cat VERSION_PLUGIN)"
 
+      - name: Get timestamp for CI tag
+        uses: gerred/actions/current-time@master
+        id: current-time
+
+      - name: Run string replace
+        uses: frabert/replace-string-action@master
+        id: format-time
+        with:
+          pattern: '[:\.]+'
+          string: "${{ steps.current-time.outputs.time }}"
+          replace-with: '-'
+          flags: 'g'
+
       - name: Build the Docker image.
         uses: docker/build-push-action@v3
         with:
@@ -45,4 +58,4 @@ jobs:
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
             NPRE_VERSION=${{ steps.npre.outputs.version }}
             PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
-          tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-ci$(date +%s)
+          tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-ci${{ steps.format-time.outputs.replaced }}
