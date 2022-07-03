@@ -1,30 +1,22 @@
-name: CI
+name: Release Image
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - Dockerfile
-      - VERSION
-      - VERSION_NPRE
-      - VERSION_PLUGIN
-  pull_request:
-    branches:
-      - main
-    paths:
-      - Dockerfile
-      - VERSION
-      - VERSION_NPRE
-      - VERSION_PLUGIN
-  workflow_dispatch:
+    tags:
+      - '*'
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Login to DockerHub.
+        uses: docker/login-action@v2
+        with:
+          username: dcjulian29
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Grab the Nagios version to use.
         id: nagios
@@ -38,19 +30,6 @@ jobs:
         id: plugin
         run: echo "::set-output name=version::$(cat VERSION_PLUGIN)"
 
-      - name: Get timestamp for CI tag
-        uses: gerred/actions/current-time@master
-        id: current-time
-
-      - name: Run string replace
-        uses: frabert/replace-string-action@master
-        id: format-time
-        with:
-          pattern: '[:\.]+'
-          string: "${{ steps.current-time.outputs.time }}"
-          replace-with: '-'
-          flags: 'g'
-
       - name: Build the Docker image.
         uses: docker/build-push-action@v3
         with:
@@ -58,4 +37,5 @@ jobs:
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
             NPRE_VERSION=${{ steps.npre.outputs.version }}
             PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
-          tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}
+          push: true
+          tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }},dcjulian29/nagios:latest
