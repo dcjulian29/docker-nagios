@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - Dockerfile
+      - VERSION
+      - VERSION_NPRE
+      - VERSION_PLUGIN
+  pull_request:
+    branches:
+      - main
+    paths:
+      - Dockerfile
+      - VERSION
+      - VERSION_NPRE
+      - VERSION_PLUGIN
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Grab the Nagios version to use.
+        id: nagios
+        run: echo "::set-output name=version::$(cat VERSION)"
+
+      - name: Grab the NPRE version to use.
+        id: npre
+        run: echo "::set-output name=version::$(cat VERSION_NPRE)"
+
+      - name: Grab the Plugin version to use.
+        id: plugin
+        run: echo "::set-output name=version::$(cat VERSION_PLUGIN)"
+
+      - name: Build the Docker image.
+        uses: docker/build-push-action@v3
+        with:
+          build-args: |
+            NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
+            NPRE_VERSION=${{ steps.npre.outputs.version }}
+            PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
+          tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-ci$(date +%s)
