@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - Dockerfile
+      - docker-entrypoint.sh
+      - index.html
+      - slack_nagios.pl
       - VERSION
       - VERSION_NPRE
       - VERSION_PLUGIN
@@ -14,6 +17,9 @@ on:
       - main
     paths:
       - Dockerfile
+      - docker-entrypoint.sh
+      - index.html
+      - slack_nagios.pl
       - VERSION
       - VERSION_NPRE
       - VERSION_PLUGIN
