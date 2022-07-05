@@ -1,0 +1,8 @@
+* text=auto
+
+*.md                text
+*.gitattributes     text
+
+*.sh                text  eol=lf
+*.pl                text  eol=lf
+*.properties        text  eol=lf
