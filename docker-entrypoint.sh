@@ -37,6 +37,7 @@ case $@ in
       fi
 
       htpasswd -bB /usr/local/nagios/etc/htpasswd.users nagiosadmin $NAGIOS_PASSWORD
+      htpasswd -bB /usr/local/nagios/etc/htpasswd.users admin $NAGIOS_PASSWORD
       apachectl -k start
       /usr/local/nagios/bin/nagios -d /usr/local/nagios/etc/nagios.cfg
       tail -f /usr/local/nagios/var/nagios.log
