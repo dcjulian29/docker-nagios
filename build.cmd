@@ -13,11 +13,14 @@ echo NPRE Version: %NPREVERSION%
 echo Plugins Version: %PLUGINVERSION%
 echo --------------------------------------------------------------------------
 
-docker build --pull --progress plain -t dcjulian29/nagios:%NAGIOSVERSION% . ^
+docker build --progress plain -t dcjulian29/nagios:%NAGIOSVERSION% . ^
   --build-arg NAGIOS_VERSION=%NAGIOSVERSION% --build-arg NPRE_VERSON=%NPREVERSON% ^
   --build-arg PLUGIN_VERSION=%PLUGINVERSION%
 
-if %errorlevel% neq 0 popd;exit /b %errorlevel%
+if ERRORLEVEL 1 (
+  popd
+  exit /b %ERRORLEVEL%
+)
 
 popd
 
