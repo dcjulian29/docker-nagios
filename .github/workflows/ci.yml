@@ -34,15 +34,15 @@ jobs:
 
       - name: Grab the Nagios version to use.
         id: nagios
-        run: echo "::set-output name=version::$(cat VERSION)"
+        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
       - name: Grab the NPRE version to use.
         id: npre
-        run: echo "::set-output name=version::$(cat VERSION_NPRE)"
+        run: echo "version=$(cat VERSION_NPRE)" >> $GITHUB_OUTPUT
 
       - name: Grab the Plugin version to use.
         id: plugin
-        run: echo "::set-output name=version::$(cat VERSION_PLUGIN)"
+        run: echo "version=$(cat VERSION_PLUGIN)" >> $GITHUB_OUTPUT
 
       - name: Get timestamp for CI tag
         uses: gerred/actions/current-time@master

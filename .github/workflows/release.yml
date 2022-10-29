@@ -18,17 +18,21 @@ jobs:
           username: dcjulian29
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Grab the image version to use.
+        id: vars
+        run: echo "version=$(echo ${GITHUB_REF:10})" >> $GITHUB_OUTPUT
+
       - name: Grab the Nagios version to use.
         id: nagios
-        run: echo "::set-output name=version::$(cat VERSION)"
+        run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
       - name: Grab the NPRE version to use.
         id: npre
-        run: echo "::set-output name=version::$(cat VERSION_NPRE)"
+        run: echo "version=$(cat VERSION_NPRE)" >> $GITHUB_OUTPUT
 
       - name: Grab the Plugin version to use.
         id: plugin
-        run: echo "::set-output name=version::$(cat VERSION_PLUGIN)"
+        run: echo "version=$(cat VERSION_PLUGIN)" >> $GITHUB_OUTPUT
 
       - name: Build the Docker image.
         uses: docker/build-push-action@v3
@@ -38,4 +42,4 @@ jobs:
             NPRE_VERSION=${{ steps.npre.outputs.version }}
             PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
           push: true
-          tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }},dcjulian29/nagios:latest
+          tags: dcjulian29/nagios:${{ steps.vars.outputs.version }},dcjulian29/nagios:latest
