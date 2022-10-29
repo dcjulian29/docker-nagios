@@ -1,13 +1,13 @@
 FROM debian:11-slim
 
-ARG NAGIOS_VERSION=4.4.6
-ARG NRPE_VERSION=4.0.3
-ARG PLUGIN_VERSION=2.3.3
+ARG NAGIOS_VERSION
+ARG NRPE_VERSION
+ARG PLUGIN_VERSION
 
 ENV TZ                  UTC \
     NAGIOS_PASSWORD     nagios-
 
-#6
+
 RUN echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /etc/apt/sources.list \
  && echo 'deb http://security.debian.org/debian-security bullseye-security main contrib non-free' >> /etc/apt/sources.list \
  && echo 'deb http://deb.debian.org/debian bullseye-updates main contrib non-free' >> /etc/apt/sources.list \
@@ -21,7 +21,6 @@ RUN echo 'deb http://deb.debian.org/debian bullseye main contrib non-free' > /et
                     libdata-validate-ip-perl libdata-validate-domain-perl libnet-dns-perl libreadonly-perl \
  && DEBIAN_FRONTEND=noninteractive apt-get -y full-upgrade
 
-#7
 RUN cd /tmp \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y autoconf build-essential wget unzip \
  && wget "https://assets.nagios.com/downloads/nagioscore/releases/nagios-${NAGIOS_VERSION}.tar.gz" \
@@ -74,7 +73,6 @@ RUN cd /tmp \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get clean
 
-#8
 RUN cd /usr/local && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y make \
  && git clone https://github.com/harisekhon/nagios-plugins nagios-plugins-hk \
@@ -90,7 +88,6 @@ RUN cd /usr/local && apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && apt-get clean
 
-#9
 RUN cd /tmp && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python3-pip \
  && git clone https://github.com/matteocorti/check_rbl.git \
