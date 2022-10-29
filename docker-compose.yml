@@ -9,5 +9,5 @@ services:
       - target: 80
         published: 8080
     volumes:
-      - ./../nagios:/usr/local/nagios/etc
+      - ./.docker/etc:/usr/local/nagios/etc
       - ./.docker/var:/usr/local/nagios/var
