@@ -63,10 +63,6 @@ RUN cd /tmp \
  && sed -i \
          -e "s|^ServerSignature On|ServerSignature Off|" \
          -e "s|^ServerTokens OS|ServerTokens Prod|" /etc/apache2/conf-enabled/security.conf \
- && sed -i \
-        -e "s|ErrorLog \${APACHE_LOG_DIR}|ErrorLog /usr/local/nagios/var|" \
-        -e "s|CustomLog \${APACHE_LOG_DIR}|CustomLog /usr/local/nagios/var|" \
-        /etc/apache2/sites-enabled/000-default.conf \
  && apt-get purge -y autoconf build-essential wget unzip \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
  && apt-get autoremove \
@@ -89,7 +85,7 @@ RUN cd /usr/local && apt-get update \
  && apt-get clean
 
 RUN cd /tmp && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python3-pip \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential python3-pip supervisor \
  && git clone https://github.com/matteocorti/check_rbl.git \
  && cd check_rbl \
  && perl Makefile.PL INSTALLSITESCRIPT=/usr/local/nagios/libexec/ \
@@ -116,6 +112,7 @@ RUN cd /tmp && apt-get update \
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./slack_nagios.pl /usr/local/bin/slack_nagios.pl
 COPY ./index.html /var/www/html/index.html
+COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 80
 
