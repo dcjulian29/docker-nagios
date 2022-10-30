@@ -10,7 +10,7 @@ on:
       - index.html
       - slack_nagios.pl
       - VERSION
-      - VERSION_NPRE
+      - VERSION_NRPE
       - VERSION_PLUGIN
   pull_request:
     branches:
@@ -21,7 +21,7 @@ on:
       - index.html
       - slack_nagios.pl
       - VERSION
-      - VERSION_NPRE
+      - VERSION_NRPE
       - VERSION_PLUGIN
   workflow_dispatch:
 
@@ -36,9 +36,9 @@ jobs:
         id: nagios
         run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
-      - name: Grab the NPRE version to use.
-        id: npre
-        run: echo "version=$(cat VERSION_NPRE)" >> $GITHUB_OUTPUT
+      - name: Grab the NRPE version to use.
+        id: nrpe
+        run: echo "version=$(cat VERSION_NRPE)" >> $GITHUB_OUTPUT
 
       - name: Grab the Plugin version to use.
         id: plugin
@@ -62,6 +62,6 @@ jobs:
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
-            NPRE_VERSION=${{ steps.npre.outputs.version }}
+            NRPE_VERSION=${{ steps.nrpe.outputs.version }}
             PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
           tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}

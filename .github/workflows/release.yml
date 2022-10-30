@@ -26,9 +26,9 @@ jobs:
         id: nagios
         run: echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
 
-      - name: Grab the NPRE version to use.
-        id: npre
-        run: echo "version=$(cat VERSION_NPRE)" >> $GITHUB_OUTPUT
+      - name: Grab the NRPE version to use.
+        id: nrpe
+        run: echo "version=$(cat VERSION_NRPE)" >> $GITHUB_OUTPUT
 
       - name: Grab the Plugin version to use.
         id: plugin
@@ -39,7 +39,7 @@ jobs:
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
-            NPRE_VERSION=${{ steps.npre.outputs.version }}
+            NRPE_VERSION=${{ steps.nrpe.outputs.version }}
             PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
           push: true
           tags: dcjulian29/nagios:${{ steps.vars.outputs.version }},dcjulian29/nagios:latest
