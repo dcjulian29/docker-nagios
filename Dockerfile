@@ -7,7 +7,10 @@ ARG PLUGIN_VERSION
 ENV TZ                  UTC \
     NAGIOS_PASSWORD     nagios-
 
-RUN apt-get update \
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+
+RUN chmod 0755 /docker-entrypoint.sh \
+  && apt-get update \
   && apt-get install -y apache2 apache2-utils \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove \
@@ -81,7 +84,10 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get clean
 
-RUN cd /tmp && apt-get update \
+COPY ./slack_nagios.pl /usr/local/bin/slack_nagios.pl
+
+RUN chmod 755 /usr/local/bin/slack_nagios.pl \
+  && cd /tmp && apt-get update \
   && apt-get install -y build-essential python3-pip git libmodule-install-perl wget \
   && git clone https://github.com/matteocorti/check_rbl.git \
   && cd check_rbl \
@@ -110,8 +116,6 @@ RUN cd /tmp && apt-get update \
   && apt-get clean \
   && chown -R nagios:nagios /usr/local/nagio*
 
-COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-COPY ./slack_nagios.pl /usr/local/bin/slack_nagios.pl
 COPY ./index.html /var/www/html/index.html
 COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -120,4 +124,4 @@ EXPOSE 80
 VOLUME [ "/usr/local/nagios/etc" ]
 VOLUME [ "/usr/local/nagios/var" ]
 
-ENTRYPOINT [ "/usr/local/bin/docker-entrypoint.sh" ]
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
