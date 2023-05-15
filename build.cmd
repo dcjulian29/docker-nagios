@@ -13,7 +13,7 @@ echo NRPE Version: %NRPEVERSION%
 echo Plugins Version: %PLUGINVERSION%
 echo --------------------------------------------------------------------------
 
-docker build --progress plain -t dcjulian29/nagios:%NAGIOSVERSION% . ^
+docker build --tag dcjulian29/nagios:%NAGIOSVERSION% . ^
   --build-arg NAGIOS_VERSION=%NAGIOSVERSION% --build-arg NRPE_VERSION=%NRPEVERSION% ^
   --build-arg PLUGIN_VERSION=%PLUGINVERSION%
 
