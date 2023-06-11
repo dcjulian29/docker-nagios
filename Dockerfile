@@ -49,7 +49,7 @@ RUN apt-get update \
 
 RUN apt-get update \
   && apt-get install -y autoconf gcc make wget libmcrypt-dev bc gawk dc \
-     build-essential snmp libnet-snmp-perl gettext smistrip patch \
+     build-essential snmp libnet-snmp-perl libwww-perl gettext smistrip patch \
   && cd /tmp \
   && wget "https://github.com/NagiosEnterprises/nrpe/archive/nrpe-${NRPE_VERSION}.tar.gz" \
   && tar xzvf nrpe-${NRPE_VERSION}.tar.gz \
