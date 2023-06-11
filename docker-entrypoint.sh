@@ -1,5 +1,21 @@
 #!/bin/bash
 
+: ${SECRET_DIR:=/run/secrets}
+
+# XYZ_DB_PASSWORD={{DOCKER-SECRET:my-db.secret}}
+env_secret_expand() {
+  var="$1"
+  eval val=\$$var
+
+  if secret_name=$(expr match "$val" "{{DOCKER-SECRET:\([^}]\+\)}}$"); then
+    secret="${SECRET_DIR}/${secret_name}"
+    if [ -f "$secret" ]; then
+      val=$(cat "${secret}")
+      export "$var"="$val"
+    fi
+  fi
+}
+
 case $@ in
   shell)
     /bin/bash
@@ -36,8 +52,20 @@ case $@ in
         chown nagios:www-data /usr/local/nagios/etc/htpasswd.users
       fi
 
-      htpasswd -bB /usr/local/nagios/etc/htpasswd.users nagiosadmin $NAGIOS_PASSWORD
-      htpasswd -bB /usr/local/nagios/etc/htpasswd.users admin $NAGIOS_PASSWORD
+      for env_var in $(printenv | cut -f1 -d"=")
+      do
+        env_secret_expand $env_var
+      done
+
+      if [ -z $NAGIOS_NAME ]; then
+        export NAGIOS_NAME=nagiosadmin
+      fi
+
+      if [ -z $NAGIOS_PASSWORD ]; then
+        export NAGIOS_PASSWORD=admin
+      fi
+
+      htpasswd -bB /usr/local/nagios/etc/htpasswd.users $NAGIOS_NAME $NAGIOS_PASSWORD
 
       /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
     fi
