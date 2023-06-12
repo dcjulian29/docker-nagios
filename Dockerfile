@@ -97,12 +97,6 @@ RUN chmod 755 /usr/local/bin/slack_nagios.pl \
   && cd /usr/local \
   && pip3 install pymssql \
   && pip3 install check_docker \
-  && git clone https://github.com/harisekhon/nagios-plugins nagios-plugins-hk \
-  && cd nagios-plugins-hk \
-  && git submodule update --init --recursive \
-  && make \
-  && make deep-clean \
-  && make apt-packages-remove \
   && git clone https://github.com/willixix/naglio-plugins.git nagios-plugins-wl \
   && git clone https://github.com/JasonRivers/nagios-plugins.git nagios-plugins-jr \
   && git clone https://github.com/justintime/nagios-plugins.git nagios-plugins-je \
