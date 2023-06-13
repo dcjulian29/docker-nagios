@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   nagios:
-    image: dcjulian29/nagios:latest
+    image: dcjulian29/nagios:latest-plugins
     environment:
       - TZ=America/New_York
       - NAGIOS_PASSWORD=P@ssw0rd!
