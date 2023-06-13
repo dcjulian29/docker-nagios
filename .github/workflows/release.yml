@@ -34,8 +34,8 @@ jobs:
         id: plugin
         run: echo "version=$(cat VERSION_PLUGIN)" >> $GITHUB_OUTPUT
 
-      - name: Build the Docker image.
-        uses: docker/build-push-action@v3
+      - name: Build the Nagios image.
+        uses: docker/build-push-action@v4.1.1
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
@@ -43,3 +43,11 @@ jobs:
             PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
           push: true
           tags: dcjulian29/nagios:${{ steps.vars.outputs.version }},dcjulian29/nagios:latest
+
+      - name: Build the Nagios Plugin image.
+        uses: docker/build-push-action@v4.1.1
+        with:
+          build-args: |
+            NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
+          push: true
+          tags: dcjulian29/nagios:${{ steps.vars.outputs.version }}-plugins,dcjulian29/nagios:latest-plugins

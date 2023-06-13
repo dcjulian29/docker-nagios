@@ -8,7 +8,8 @@ on:
       - Dockerfile
       - docker-entrypoint.sh
       - index.html
-      - slack_nagios.pl
+      - plugins/Dockerfile
+      - plugins/slack_nagios.pl
       - VERSION
       - VERSION_NRPE
       - VERSION_PLUGIN
@@ -19,7 +20,8 @@ on:
       - Dockerfile
       - docker-entrypoint.sh
       - index.html
-      - slack_nagios.pl
+      - plugins/Dockerfile
+      - plugins/slack_nagios.pl
       - VERSION
       - VERSION_NRPE
       - VERSION_PLUGIN
@@ -57,11 +59,19 @@ jobs:
           replace-with: '-'
           flags: 'g'
 
-      - name: Build the Docker image.
-        uses: docker/build-push-action@v3
+      - name: Build the Nagios image.
+        uses: docker/build-push-action@v4.1.1
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
             NRPE_VERSION=${{ steps.nrpe.outputs.version }}
             PLUGIN_VERSION=${{ steps.plugin.outputs.version }}
           tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}
+
+      - name: Build the Nagios Plugins image.
+        uses: docker/build-push-action@v4.1.1
+        with:
+          build-args: |
+            NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
+          context: plugins/
+          tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}-plugins
