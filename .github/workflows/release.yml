@@ -49,5 +49,6 @@ jobs:
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
+          context: plugins/
           push: true
           tags: dcjulian29/nagios:${{ steps.vars.outputs.version }}-plugins,dcjulian29/nagios:latest-plugins
