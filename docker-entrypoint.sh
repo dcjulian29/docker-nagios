@@ -67,6 +67,14 @@ case $@ in
 
       htpasswd -bB /usr/local/nagios/etc/htpasswd.users $NAGIOS_NAME $NAGIOS_PASSWORD
 
+      if [ -f /run/apache2/apache2.pid ]; then
+        rm -f /run/apache2/apache2.pid
+      fi
+
+      if [ -f /run/nagios.lock ]; then
+        rm -f /run/nagios.lock
+      fi
+
       /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
     fi
     ;;
