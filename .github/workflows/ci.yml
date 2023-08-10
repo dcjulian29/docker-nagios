@@ -72,6 +72,6 @@ jobs:
         uses: docker/build-push-action@v4.1.1
         with:
           build-args: |
-            NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
+            NAGIOS_VERSION=${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}
           context: plugins/
           tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}-plugins
