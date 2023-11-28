@@ -1,4 +1,4 @@
-FROM debian:11-slim
+FROM debian:12-slim
 
 ARG NAGIOS_VERSION
 ARG NRPE_VERSION
@@ -7,14 +7,10 @@ ARG PLUGIN_VERSION
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN chmod 0755 /docker-entrypoint.sh \
+  && rm -f /usr/lib/python3.11/EXTERNALLY-MANAGED \
+  && rm -f /usr/lib/python3.12/EXTERNALLY-MANAGED \
   && apt-get update \
   && apt-get install -y apache2 apache2-utils \
-  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-  && apt-get autoremove \
-  && rm -rf /var/lib/apt/lists/* \
-  && apt-get clean
-
-RUN apt-get update \
   && apt-get install -y php openssl supervisor iputils-ping \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && apt-get autoremove \
@@ -24,9 +20,9 @@ RUN apt-get update \
 RUN apt-get update \
   && apt-get install -y autoconf gcc libc6 make wget unzip libgd-dev libssl-dev \
   && cd /tmp \
-  && wget "https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${NAGIOS_VERSION}.tar.gz" \
+  && wget "https://github.com/NagiosEnterprises/nagioscore/releases/download/nagios-${NAGIOS_VERSION}/nagios-${NAGIOS_VERSION}.tar.gz" \
   && tar xzvf nagios-${NAGIOS_VERSION}.tar.gz \
-  && cd nagioscore-nagios-${NAGIOS_VERSION} \
+  && cd nagios-${NAGIOS_VERSION} \
   && ./configure --prefix=/usr/local/nagios --with-httpd-conf=/etc/apache2/sites-enabled \
   && make all \
   && make install-groups-users \

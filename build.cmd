@@ -11,11 +11,10 @@ echo.
 echo *
 echo * Nagios Version: %NAGIOSVERSION%
 echo * NRPE Version: %NRPEVERSION%
-echo * Plugins Version: %PLUGINVERSION%
 echo *
 echo.
 
-docker build --tag dcjulian29/nagios:%NAGIOSVERSION% ^
+docker build --no-cache --progress plain --pull --tag dcjulian29/nagios:%NAGIOSVERSION% ^
   --build-arg NAGIOS_VERSION=%NAGIOSVERSION% --build-arg NRPE_VERSION=%NRPEVERSION% ^
   --build-arg PLUGIN_VERSION=%PLUGINVERSION% .
 
@@ -26,7 +25,7 @@ docker image inspect dcjulian29/nagios:%NAGIOSVERSION% > .docker\nagios_%NAGIOSV
 
 echo.
 echo *
-echo * Plugins Build: %NAGIOSVERSION%
+echo * Plugins Version: %NAGIOSVERSION%-%PLUGINVERSION%
 echo *
 echo.
 
