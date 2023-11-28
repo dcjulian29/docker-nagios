@@ -7,8 +7,6 @@ ARG PLUGIN_VERSION
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN chmod 0755 /docker-entrypoint.sh \
-  && rm -f /usr/lib/python3.11/EXTERNALLY-MANAGED \
-  && rm -f /usr/lib/python3.12/EXTERNALLY-MANAGED \
   && apt-get update \
   && apt-get install -y apache2 apache2-utils \
   && apt-get install -y php openssl supervisor iputils-ping \
@@ -43,6 +41,8 @@ RUN apt-get update \
 RUN apt-get update \
   && apt-get install -y autoconf gcc make wget libmcrypt-dev bc gawk dc \
      build-essential snmp libnet-snmp-perl libwww-perl gettext smistrip patch \
+  && rm -f /usr/lib/python3.11/EXTERNALLY-MANAGED \
+  && rm -f /usr/lib/python3.12/EXTERNALLY-MANAGED \
   && cd /tmp \
   && wget "https://github.com/NagiosEnterprises/nrpe/archive/nrpe-${NRPE_VERSION}.tar.gz" \
   && tar xzvf nrpe-${NRPE_VERSION}.tar.gz \

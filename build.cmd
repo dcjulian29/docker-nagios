@@ -25,7 +25,7 @@ docker image inspect dcjulian29/nagios:%NAGIOSVERSION% > .docker\nagios_%NAGIOSV
 
 echo.
 echo *
-echo * Plugins Version: %NAGIOSVERSION%-%PLUGINVERSION%
+echo * Plugins Version: %PLUGINVERSION%
 echo *
 echo.
 
