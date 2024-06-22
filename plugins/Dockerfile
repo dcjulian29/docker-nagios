@@ -21,7 +21,7 @@ RUN chmod 755 /usr/local/bin/slack_nagios.pl \
   && chown -R nagios:nagios /usr/local/nagios-plugins-hk
 
 RUN cd /tmp && apt-get update \
-  && apt-get install -y build-essential python3-pip git libmodule-install-perl wget \
+  && apt-get install -y build-essential python3-pip git libmodule-install-perl libjson-perl wget \
   && git clone https://github.com/matteocorti/check_rbl.git \
   && cd check_rbl \
   && perl Makefile.PL INSTALLSITESCRIPT=/usr/local/nagios/libexec/ \
