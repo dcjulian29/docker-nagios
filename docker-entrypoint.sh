@@ -47,25 +47,27 @@ case $@ in
     /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 
     if [ $? -eq 0 ]; then
-      if [ ! -d /usr/local/nagios/etc/htpasswd.users ]; then
-        touch /usr/local/nagios/etc/htpasswd.users
-        chown nagios:www-data /usr/local/nagios/etc/htpasswd.users
-      fi
-
       for env_var in $(printenv | cut -f1 -d"=")
       do
         env_secret_expand $env_var
       done
 
-      if [ -z $NAGIOS_NAME ]; then
-        export NAGIOS_NAME=nagiosadmin
-      fi
+      if [ ! -f /usr/local/nagios/etc/htpasswd.users ]; then
+        touch /usr/local/nagios/etc/htpasswd.users
+        chown nagios:www-data /usr/local/nagios/etc/htpasswd.users
 
-      if [ -z $NAGIOS_PASSWORD ]; then
-        export NAGIOS_PASSWORD=admin
-      fi
+        if [ -z $NAGIOS_NAME ]; then
+          export NAGIOS_NAME=nagiosadmin
+        fi
 
-      htpasswd -bB /usr/local/nagios/etc/htpasswd.users $NAGIOS_NAME $NAGIOS_PASSWORD
+        if [ -z $NAGIOS_PASSWORD ]; then
+          export NAGIOS_PASSWORD=admin
+        fi
+
+        htpasswd -bB /usr/local/nagios/etc/htpasswd.users $NAGIOS_NAME $NAGIOS_PASSWORD
+      else
+        chown nagios:www-data /usr/local/nagios/etc/htpasswd.users
+      fi
 
       if [ -f /run/apache2/apache2.pid ]; then
         rm -f /run/apache2/apache2.pid
