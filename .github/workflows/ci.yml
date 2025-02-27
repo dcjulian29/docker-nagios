@@ -36,7 +36,7 @@ jobs:
           flags: 'g'
 
       - name: Build the Nagios image.
-        uses: docker/build-push-action@v6.14.0
+        uses: docker/build-push-action@v6.15.0
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
@@ -45,7 +45,7 @@ jobs:
           tags: dcjulian29/nagios:${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}
 
       - name: Build the Nagios Plugins image.
-        uses: docker/build-push-action@v6.14.0
+        uses: docker/build-push-action@v6.15.0
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}-${{ steps.format-time.outputs.replaced }}
@@ -83,7 +83,7 @@ jobs:
         run: echo "version=$(cat VERSION_PLUGIN)" >> $GITHUB_OUTPUT
 
       - name: Build the Nagios image.
-        uses: docker/build-push-action@v6.14.0
+        uses: docker/build-push-action@v6.15.0
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
@@ -93,7 +93,7 @@ jobs:
           tags: dcjulian29/nagios:${{ steps.vars.outputs.version }},dcjulian29/nagios:latest
 
       - name: Build the Nagios Plugin image.
-        uses: docker/build-push-action@v6.14.0
+        uses: docker/build-push-action@v6.15.0
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.nagios.outputs.version }}
