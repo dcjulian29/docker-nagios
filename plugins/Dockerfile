@@ -28,6 +28,7 @@ RUN cd /tmp && apt-get update \
   && make \
   && make install \
   && cd /usr/local \
+  && python3 -m pip config set global.break-system-packages true \
   && pip3 install pymssql \
   && pip3 install check_docker \
   && git clone https://github.com/willixix/naglio-plugins.git nagios-plugins-wl \
