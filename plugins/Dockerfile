@@ -48,4 +48,4 @@ RUN cd /tmp && apt-get update \
   && apt-get autoremove \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get clean \
-  && chown -R nagios:nagios /usr/local/nagio*
+  && chown -R nagios:nagios /usr/local/nagios*
