@@ -1,4 +1,4 @@
-ARG NAGIOS_VERSION
+ARG NAGIOS_VERSION=latest
 
 FROM dcjulian29/nagios:${NAGIOS_VERSION}
 
@@ -28,6 +28,7 @@ RUN cd /tmp && apt-get update \
   && make \
   && make install \
   && cd /usr/local \
+  && python3 -m pip config set global.break-system-packages true \
   && pip3 install pymssql \
   && pip3 install check_docker \
   && git clone https://github.com/willixix/naglio-plugins.git nagios-plugins-wl \
@@ -47,4 +48,4 @@ RUN cd /tmp && apt-get update \
   && apt-get autoremove \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get clean \
-  && chown -R nagios:nagios /usr/local/nagio*
+  && chown -R nagios:nagios /usr/local/nagios*
