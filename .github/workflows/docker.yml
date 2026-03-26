@@ -53,9 +53,9 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           build-args: |
-            NAGIOS_VERSION=${{ steps.nagios.v1.version }}-${{ steps.v4.outputs.timestamp }}
+            NAGIOS_VERSION=${{ steps.v1.outputs.version }}-${{ steps.v4.outputs.timestamp }}
           context: plugins/
-          tags: dcjulian29/nagios:${{ steps.nagios.v1.version }}-${{ steps.v4.outputs.timestamp }}-plugins
+          tags: dcjulian29/nagios:${{ steps.v1.outputs.version }}-${{ steps.v4.outputs.timestamp }}-plugins
 
   release:
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
@@ -92,10 +92,10 @@ jobs:
             NRPE_VERSION=${{ steps.v2.outputs.version }}
             PLUGIN_VERSION=${{ steps.v3.outputs.version }}
           push: true
-          tags: dcjulian29/nagios:${{ steps.vars.v1.version }},dcjulian29/nagios:latest
+          tags: dcjulian29/nagios:${{ steps.v1.outputs.version }},dcjulian29/nagios:latest
 
       - name: Build the Nagios Plugin image.
-        uses: docker/build-push-action
+        uses: docker/build-push-action@v7
         with:
           build-args: |
             NAGIOS_VERSION=${{ steps.v1.outputs.version }}
