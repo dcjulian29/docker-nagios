@@ -39,8 +39,8 @@ RUN cd /tmp && apt-get update \
   && chmod +x /usr/local/nagios-plugins-wl/check* \
   && chmod +x /usr/local/nagios-plugins-je/check_mem/check_mem.pl \
   && cd /tmp \
-  && wget https://github.com/chriscareycode/nagiostv-react/releases/download/v0.8.5/nagiostv-0.8.5.tar.gz \
-  && tar xzvf nagiostv-0.8.5.tar.gz \
+  && wget https://github.com/chriscareycode/nagiostv-react/releases/download/v0.10.0/nagiostv-0.10.0.tar.gz \
+  && tar xzvf nagiostv-0.10.0.tar.gz \
   && mv nagiostv /usr/local/nagios/share/ \
   && rm -Rf /tmp/* /var/tmp/* \
   && apt-get purge -y build-essential python3-pip git libmodule-install-perl wget \
