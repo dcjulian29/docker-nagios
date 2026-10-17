@@ -12,6 +12,10 @@ The base image currently is utilizing a monolithic style containing all of the p
 
 Possibly plan to update to a base image with additional images specialized to more specific environments... any suggestions are welcome.
 
+## Account ids
+
+Set `NAGIOS_UID` and `NAGIOS_GID` to run Nagios as a uid and gid chosen on the host, so the files it writes to mounted volumes (`/usr/local/nagios/var`) belong to that account. The entrypoint remaps the `nagios` account on start. Left unset, the image keeps the ids its build gave the account.
+
 ## Latest Upstream Versions
 
 * ![Nagios](https://img.shields.io/github/v/release/NagiosEnterprises/nagioscore?label=Nagios%20Core)
