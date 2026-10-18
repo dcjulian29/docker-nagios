@@ -19,21 +19,16 @@ env_secret_expand() {
 # Remap the nagios account to NAGIOS_UID / NAGIOS_GID when they are set, so
 # files on mounted volumes belong to an id chosen on the host instead of
 # whatever ids the build happened to give the account. Unset, the image's ids
-# are kept. Files in the image owned by the old ids follow; -xdev keeps the
-# re-owning off mounted volumes (var/ is chowned below anyway).
+# are kept. var/ is chowned below; nothing else in the image is re-owned:
+# Nagios only writes to var/ and /tmp, and every file the image gives the
+# account is world-readable.
 remap_nagios_ids() {
-  local old_uid old_gid
-  old_uid=$(id -u nagios)
-  old_gid=$(getent group nagios | cut -d: -f3)
-
-  if [ -n "${NAGIOS_GID}" ] && [ "${NAGIOS_GID}" != "${old_gid}" ]; then
+  if [ -n "${NAGIOS_GID}" ] && [ "${NAGIOS_GID}" != "$(getent group nagios | cut -d: -f3)" ]; then
     groupmod -o -g "${NAGIOS_GID}" nagios
-    find / -xdev -group "${old_gid}" -exec chgrp -h nagios {} +
   fi
 
-  if [ -n "${NAGIOS_UID}" ] && [ "${NAGIOS_UID}" != "${old_uid}" ]; then
+  if [ -n "${NAGIOS_UID}" ] && [ "${NAGIOS_UID}" != "$(id -u nagios)" ]; then
     usermod -o -u "${NAGIOS_UID}" nagios
-    find / -xdev -user "${old_uid}" -exec chown -h nagios {} +
   fi
 }
 
